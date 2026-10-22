@@ -11,6 +11,7 @@
 <meta name="description" content="معاينة بصرية مستقلة لهوية NAIF Gravity وبطاقتي Mission Arena وFuture Shield، دون دفع أو وصول للمنتجات الخاصة.">
 <link rel="stylesheet" href="./review.css">
 <script src="./review.js" defer></script>
+<script src="./review-sound.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main" data-t="skip">تجاوز إلى المحتوى</a>
@@ -43,7 +44,8 @@
      <span class="glass-foot" dir="ltr">SYNTHETIC VISUAL ONLY</span>
     </div>
     <div class="glass-console">
-     <p class="glass-index" dir="ltr">LOCAL SAMPLE / WEBHOOK</p>
+     <div class="glass-console-top"><p class="glass-index" dir="ltr">LOCAL SAMPLE / WEBHOOK</p><button type="button" id="glassSoundToggle" class="glass-sound-toggle" aria-pressed="false"><span aria-hidden="true">♪</span><span id="glassSoundLabel">فعّل صوت الزجاجات</span></button></div>
+     <p class="glass-sound-help" id="glassSoundHelp" role="status" aria-live="polite" aria-atomic="true">الصوت اختياري؛ فعّله ثم اضغط لتسمع نغمة لكل مرحلة.</p>
      <h2 data-t="glassHeading">غرفة العقد الزجاجية</h2>
      <p id="glassExplain" role="status" aria-live="polite" aria-atomic="true">مثال بصري مصطنع. اضغط لمشاهدة الاختلاف ثم التصحيح المحلي.</p>
      <div class="glass-buttons"><button id="glassAction" type="button" class="primary" data-t="reveal">اكشف نقطة الخلل ↗</button><a href="#products" class="secondary" data-t="seeProducts">اكتشف المنتجين ↓</a></div>
@@ -98,7 +100,7 @@
     <figure><a href="./assets/product-cards.png" target="_blank" rel="noopener noreferrer"><img src="./assets/product-cards.png" loading="lazy" width="390" height="1504" alt="بطاقتا Mission Arena وFuture Shield"></a><figcaption data-t="shotTwo">بطاقتا المنتجين</figcaption></figure>
     <figure><a href="./assets/shield-mock.png" target="_blank" rel="noopener noreferrer"><img src="./assets/shield-mock.png" loading="lazy" width="390" height="950" alt="نتائج محاكاة Future Shield على عرض هاتف"></a><figcaption data-t="shotThree">تجربة Future Shield الاصطناعية</figcaption></figure>
    </div>
-   <p class="privacy"><strong data-t="limitsTitle">حدود العرض:</strong> <span data-t="limits">لا مدخلات عملاء، لا أدوات تتبّع، لا طلبات API، لا دفع أو إصلاح فعلي. الكود المنشور هنا مجرد واجهة عرض بصرية مبسطة ولا يحتوي على خوارزميات المنتجين الداخلية.</span></p>
+   <p class="privacy"><strong data-t="limitsTitle">حدود العرض:</strong> <span data-t="limits">لا مدخلات عملاء، لا أدوات تتبّع أو طلبات API، ولا دفع أو إصلاح فعلي. يُحفظ اختيار تشغيل الصوت أو كتمه على جهازك محليًا فقط. المعاينة لا تحتوي على خوارزميات المنتجين الداخلية.</span></p>
   </div>
  </section>
 </main>

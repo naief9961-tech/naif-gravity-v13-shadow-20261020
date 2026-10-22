@@ -174,3 +174,33 @@ section[id],#top{scroll-margin-top:86px}
 }
 @media(max-width:365px){.topnav a{font-size:9px}.bar-note{font-size:8px}.glass-buttons .primary,.glass-buttons .secondary{flex:1 1 100%}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.glass-layer,.fissure,.circuit i{transition:none!important}}
+
+/* Optional owner-selected Crystal Whisper sound. No autoplay, minimum 44px touch. */
+.glass-console-top{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:8px;flex-wrap:wrap;margin-bottom:8px;
+}
+.glass-sound-toggle{
+ min-height:45px;display:inline-flex;align-items:center;justify-content:center;
+ gap:8px;padding:9px 12px;border-radius:9px;
+ border:1px solid #af926f;background:#263c4e;color:#ffdbb5;
+ cursor:pointer;font-size:12px;font-weight:800;line-height:1.45;
+}
+.glass-sound-toggle:hover{background:#30495b;border-color:#ffcc98}
+.glass-sound-toggle[aria-pressed=true]{
+ color:#102337;background:#e5b98f;border-color:#ffd2a3;
+}
+.glass-sound-toggle span[aria-hidden=true]{
+ font-size:19px;line-height:1;font-weight:800;
+}
+.glass-sound-toggle:focus-visible{outline:3px solid #ffddaa;outline-offset:3px}
+.glass-sound-help{
+ margin:3px 0 10px;color:#e4c7a9;font-size:11px;line-height:1.7;
+}
+@media(max-width:365px){
+ .glass-console-top{align-items:stretch}
+ .glass-sound-toggle{width:100%;min-height:47px}
+}
+@media(prefers-reduced-motion:reduce){
+ .glass-sound-toggle{animation:none!important;transition:none!important}
+}

@@ -36,7 +36,7 @@
    shotOne:'أول شاشة — الزجاجات الثلاث',shotTwo:'بطاقتا المنتجين',
    shotThree:'تجربة Future Shield الاصطناعية',
    limitsTitle:'حدود العرض:',
-   limits:'لا مدخلات عملاء، لا أدوات تتبّع، لا طلبات API، لا دفع أو إصلاح فعلي. الكود المنشور هنا مجرد واجهة عرض بصرية مبسطة ولا يحتوي على خوارزميات المنتجين الداخلية.',
+   limits:'لا مدخلات عملاء، لا أدوات تتبّع أو طلبات API، ولا دفع أو إصلاح فعلي. يُحفظ اختيار تشغيل الصوت أو كتمه على جهازك محليًا فقط. المعاينة لا تحتوي على خوارزميات المنتجين الداخلية.',
    footer:'مراجعة شكلية مستقلة — قرار النشر التجاري: NO-GO'
   },
   en:{
@@ -72,7 +72,7 @@
    shotOne:'First screen — the three glass plates',shotTwo:'Both product cards',
    shotThree:'Synthetic Future Shield demonstration',
    limitsTitle:'Review limits:',
-   limits:'No customer inputs, tracking, API calls, payment or real repair. This published code is a simplified visual preview and contains no private product logic.',
+   limits:'No customer inputs, tracking, API calls, payment or real repair. Your audio on/off preference is stored locally on your device only. No private product logic is included.',
    footer:'Standalone design review — commercial release NO-GO'
   }
  };
@@ -98,6 +98,6 @@
   lng.setAttribute('aria-label',lang==='ar'?'EN — switch to English':'AR — التحويل إلى العربية');
  }
  $('glassAction')?.addEventListener('click',()=>{phase=(phase+1)%phases.length;paint();});
- $('langToggle')?.addEventListener('click',()=>{lang=lang==='ar'?'en':'ar';paint();});
+ $('langToggle')?.addEventListener('click',()=>{lang=lang==='ar'?'en':'ar';paint();window.dispatchEvent(new Event('naif:preview-language-changed'));});
  paint();
 })();
