@@ -3,8 +3,8 @@
  * Original NAIF Gravity Crystal Whisper sound, rendered in native HTML audio
  * instead of Web Audio to address iPhone silent-switch output behavior.
  * Files preserve 1680/2510/3560 Hz sine frequencies, phase pitch ratios,
- * original exponential attack/decay and relative volumes, with a constant
- * normalization for mobile audibility. All files self-hosted and synthetic.
+ * original exponential attack, with 4.4x longer decay and relative volumes,
+ * common normalization for mobile audibility. All files self-hosted and synthetic.
  * No autoplay, no telemetry, no personal-data transfer, no external APIs.
  */
 (() => {
@@ -27,28 +27,28 @@
     ar:{
       off:'🔊 فعّل واسمع Crystal Whisper',
       on:'🔇 اكتم صوت الزجاجات',
-      prompt:'اضغط لتسمع صوتنا الأصلي مباشرة، ثم اضغط الزجاج ثلاث مرات.',
-      ready:'المشغّل جاهز. كل ضغطة على الزجاج تشغّل مرحلة مختلفة.',
-      requested:'طلبنا من Safari تشغيل النغمة. إذا لم تسمعها، افتح مشغّل الآيفون الأصلي أدناه.',
+      prompt:'جرّب Crystal Whisper برنين أطول، ثم اضغط على الزجاجات الثلاث.',
+      ready:'الصوت مفعّل. اضغط على الزجاجات لسماع نغمة كل مرحلة.',
+      requested:'أرسلنا أمر التشغيل إلى Safari، وهذا لا يثبت أنه مسموع. جرّب المشغّل المدمج أدناه إذا لزم.',
       muted:'تم كتم صوت المعاينة.',
       loading:'جارٍ تشغيل الملف الصوتي المختار…',
       blocked:'Safari لم يبدأ تشغيل الصوت. افتح المشغّل الأصلي أدناه واضغط ▶.',
       issue:'فشل تحميل الملف الصوتي؛ المعاينة البصرية ستبقى تعمل.',
-      fallbackTitle:'الصوت ما انسمع؟ جرّبه من مشغّل الآيفون الأصلي',
-      fallbackText:'اضغط ▶ في المشغّل أدناه. هذه نفس نغمة Crystal Whisper، محفوظة كملف صوتي محلي للتوافق مع Safari.'
+      fallbackTitle:'اختبار صوت Crystal Whisper مباشرة في Safari',
+      fallbackText:'اضغط ▶ لتشغيل رنين Crystal Whisper الأطول داخل Safari. إذا بقي صامتًا، افتح ملف M4A واحفظه في الملفات للاختبار.'
     },
     en:{
       off:'🔊 Enable & hear Crystal Whisper',
       on:'🔇 Mute glass sound',
-      prompt:'Tap to hear the original selected sound right away, then step through the three glass stages.',
-      ready:'Media player ready. Every glass tap plays the matching stage.',
-      requested:'Safari started the clip. If you did not hear it, use the native audio player below.',
+      prompt:'Test Crystal Whisper with a longer resonance, then tap each glass stage.',
+      ready:'Sound enabled. Each glass tap plays its corresponding stage.',
+      requested:'Safari accepted a playback request, but acoustic output is unverified. Try the visible media player below.',
       muted:'Preview sound muted.',
       loading:'Starting your original sound…',
       blocked:'Safari declined playback. Open the native player below and press Play.',
       issue:'The sound file failed to load; the visual preview still works.',
-      fallbackTitle:'No sound? Try the native iPhone audio player',
-      fallbackText:'Press Play in the player below. This is the original Crystal Whisper composition, rendered as local media for Safari.'
+      fallbackTitle:'Test Crystal Whisper directly in Safari',
+      fallbackText:'Press Play to hear the longer Crystal Whisper resonance. If silent, open the M4A file and test from iPhone Files.'
     }
   };
   const t=()=>dictionary[document.documentElement.lang==='en'?'en':'ar'];

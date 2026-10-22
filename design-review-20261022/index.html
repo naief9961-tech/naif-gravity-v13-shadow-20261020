@@ -9,14 +9,14 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; font-src 'none'; upgrade-insecure-requests">
 <title>NAIF GRAVITY — معاينة التصميم الآمنة</title>
 <meta name="description" content="معاينة بصرية مستقلة لهوية NAIF Gravity وبطاقتي Mission Arena وFuture Shield، دون دفع أو وصول للمنتجات الخاصة.">
-<link rel="stylesheet" href="./review.css?v=crystal-media-2">
+<link rel="stylesheet" href="./review.css?v=crystal-long-20261022">
 <script src="./review.js" defer></script>
-<script src="./review-sound.js?v=crystal-media-2" defer></script>
+<script src="./review-sound.js?v=crystal-long-20261022" defer></script>
 </head>
 <body>
-<audio id="crystalBefore" preload="auto" src="./assets/crystal-before.wav"></audio>
-<audio id="crystalFail" preload="auto" src="./assets/crystal-fail.wav"></audio>
-<audio id="crystalCorrected" preload="auto" src="./assets/crystal-corrected-local.wav"></audio>
+<audio id="crystalBefore" preload="auto" src="./assets/crystal-long-before.m4a"></audio>
+<audio id="crystalFail" preload="auto" src="./assets/crystal-long-fail.m4a"></audio>
+<audio id="crystalCorrected" preload="auto" src="./assets/crystal-long-corrected-local.m4a"></audio>
 <a class="skip" href="#main" data-t="skip">تجاوز إلى المحتوى</a>
 <div class="statusbar" role="region" aria-label="حالة معاينة التصميم"><div class="wrap barinner"><span dir="ltr"><span class="bar-dot"></span> NAIF / V14 DESIGN REVIEW</span><span class="bar-note" data-t="previewOnly">معاينة تصميم فقط · دون شراء</span></div></div>
 <header class="site-header">
@@ -49,10 +49,11 @@
     <div class="glass-console">
      <div class="glass-console-top"><p class="glass-index" dir="ltr">LOCAL SAMPLE / WEBHOOK</p><button type="button" id="glassSoundToggle" class="glass-sound-toggle" aria-pressed="false"><span aria-hidden="true">♪</span><span id="glassSoundLabel">فعّل واسمع Crystal Whisper</span></button></div>
      <p class="glass-sound-help" id="glassSoundHelp" role="status" aria-live="polite" aria-atomic="true">اضغط لتسمع نفس الصوت المختار، ثم جرّب الضغط على الزجاجات.</p>
-     <details class="sound-fallback" id="soundFallback">
-      <summary>الصوت ما انسمع؟ جرّبه من مشغّل الآيفون الأصلي</summary>
-      <p>هذا نفس الصوت المختار بتسجيل WAV محلي، وليس صوتًا جديدًا. تستطيع تشغيله مباشرة من مشغّل Safari لتعرف هل المشكلة في إخراج الصوت من الجهاز.</p>
-      <audio id="nativeSoundTest" controls preload="none" src="./assets/crystal-before.wav" aria-label="تجربة Crystal Whisper من مشغل الوسائط"></audio>
+     <details class="sound-fallback" id="soundFallback" open>
+      <summary>اختبر صوت Crystal Whisper مباشرة في Safari</summary>
+      <p>نفس النغمات التي سمعتها في ملف المقارنة، مع رنين أطول قليلًا. اضغط ▶ لتسمع الملف داخل Safari. هذا اختبار إخراج الصوت، وليس إصلاحًا حقيقيًا.</p>
+      <audio id="nativeSoundTest" controls preload="none" src="./assets/crystal-long-before.m4a" aria-label="تجربة Crystal Whisper من مشغل الوسائط"></audio>
+      <a class="sound-direct-file" href="./assets/crystal-long-before.m4a" target="_blank" rel="noopener noreferrer" data-t="openSoundFile">فتح ملف الصوت M4A مباشرة ↗</a>
      </details>
      <h2 data-t="glassHeading">غرفة العقد الزجاجية</h2>
      <p id="glassExplain" role="status" aria-live="polite" aria-atomic="true">مثال بصري مصطنع. اضغط لمشاهدة الاختلاف ثم التصحيح المحلي.</p>

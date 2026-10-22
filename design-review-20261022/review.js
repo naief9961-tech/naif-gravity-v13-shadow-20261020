@@ -37,6 +37,7 @@
    shotThree:'تجربة Future Shield الاصطناعية',
    limitsTitle:'حدود العرض:',
    limits:'لا مدخلات عملاء، لا أدوات تتبّع أو طلبات API، ولا دفع أو إصلاح فعلي. الصوت اختياري ولا يُحفظ اختيارك أو يُرسل لأي جهة. المعاينة لا تحتوي على خوارزميات المنتجين الداخلية.',
+   openSoundFile:'فتح ملف صوت M4A مباشرة ↗',
    footer:'مراجعة شكلية مستقلة — قرار النشر التجاري: NO-GO'
   },
   en:{
@@ -73,6 +74,7 @@
    shotThree:'Synthetic Future Shield demonstration',
    limitsTitle:'Review limits:',
    limits:'No customer inputs, tracking, API calls, payment or real repair. Audio is optional, with no saved preference or data transfer. No private product logic is included.',
+   openSoundFile:'Open the M4A audio file directly ↗',
    footer:'Standalone design review — commercial release NO-GO'
   }
  };

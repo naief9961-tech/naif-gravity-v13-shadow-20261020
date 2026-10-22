@@ -223,3 +223,12 @@ section[id],#top{scroll-margin-top:86px}
 @media(prefers-reduced-motion:reduce){
  .sound-fallback{animation:none!important;transition:none!important}
 }
+
+.sound-direct-file{
+ display:inline-flex;min-height:45px;align-items:center;
+ margin-top:12px;padding:9px 12px;border-radius:8px;
+ color:#ffe2bf;border:1px solid #9d9fb2;background:#162b40;
+ text-decoration:none;font-weight:800;font-size:12px;
+}
+.sound-direct-file:hover{border-color:#e6b68d;background:#253e53}
+.sound-direct-file:focus-visible{outline:3px solid #ffdcac;outline-offset:3px}
