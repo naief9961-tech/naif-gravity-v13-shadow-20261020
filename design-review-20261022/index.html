@@ -6,14 +6,17 @@
 <meta name="theme-color" content="#0a1420">
 <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
 <meta name="referrer" content="no-referrer">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; font-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; media-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; font-src 'none'; upgrade-insecure-requests">
 <title>NAIF GRAVITY — معاينة التصميم الآمنة</title>
 <meta name="description" content="معاينة بصرية مستقلة لهوية NAIF Gravity وبطاقتي Mission Arena وFuture Shield، دون دفع أو وصول للمنتجات الخاصة.">
-<link rel="stylesheet" href="./review.css">
+<link rel="stylesheet" href="./review.css?v=crystal-media-2">
 <script src="./review.js" defer></script>
-<script src="./review-sound.js" defer></script>
+<script src="./review-sound.js?v=crystal-media-2" defer></script>
 </head>
 <body>
+<audio id="crystalBefore" preload="auto" src="./assets/crystal-before.wav"></audio>
+<audio id="crystalFail" preload="auto" src="./assets/crystal-fail.wav"></audio>
+<audio id="crystalCorrected" preload="auto" src="./assets/crystal-corrected-local.wav"></audio>
 <a class="skip" href="#main" data-t="skip">تجاوز إلى المحتوى</a>
 <div class="statusbar" role="region" aria-label="حالة معاينة التصميم"><div class="wrap barinner"><span dir="ltr"><span class="bar-dot"></span> NAIF / V14 DESIGN REVIEW</span><span class="bar-note" data-t="previewOnly">معاينة تصميم فقط · دون شراء</span></div></div>
 <header class="site-header">
@@ -44,8 +47,13 @@
      <span class="glass-foot" dir="ltr">SYNTHETIC VISUAL ONLY</span>
     </div>
     <div class="glass-console">
-     <div class="glass-console-top"><p class="glass-index" dir="ltr">LOCAL SAMPLE / WEBHOOK</p><button type="button" id="glassSoundToggle" class="glass-sound-toggle" aria-pressed="false"><span aria-hidden="true">♪</span><span id="glassSoundLabel">فعّل صوت الزجاجات</span></button></div>
-     <p class="glass-sound-help" id="glassSoundHelp" role="status" aria-live="polite" aria-atomic="true">الصوت اختياري؛ فعّله ثم اضغط لتسمع نغمة لكل مرحلة.</p>
+     <div class="glass-console-top"><p class="glass-index" dir="ltr">LOCAL SAMPLE / WEBHOOK</p><button type="button" id="glassSoundToggle" class="glass-sound-toggle" aria-pressed="false"><span aria-hidden="true">♪</span><span id="glassSoundLabel">فعّل واسمع Crystal Whisper</span></button></div>
+     <p class="glass-sound-help" id="glassSoundHelp" role="status" aria-live="polite" aria-atomic="true">اضغط لتسمع نفس الصوت المختار، ثم جرّب الضغط على الزجاجات.</p>
+     <details class="sound-fallback" id="soundFallback">
+      <summary>الصوت ما انسمع؟ جرّبه من مشغّل الآيفون الأصلي</summary>
+      <p>هذا نفس الصوت المختار بتسجيل WAV محلي، وليس صوتًا جديدًا. تستطيع تشغيله مباشرة من مشغّل Safari لتعرف هل المشكلة في إخراج الصوت من الجهاز.</p>
+      <audio id="nativeSoundTest" controls preload="none" src="./assets/crystal-before.wav" aria-label="تجربة Crystal Whisper من مشغل الوسائط"></audio>
+     </details>
      <h2 data-t="glassHeading">غرفة العقد الزجاجية</h2>
      <p id="glassExplain" role="status" aria-live="polite" aria-atomic="true">مثال بصري مصطنع. اضغط لمشاهدة الاختلاف ثم التصحيح المحلي.</p>
      <div class="glass-buttons"><button id="glassAction" type="button" class="primary" data-t="reveal">اكشف نقطة الخلل ↗</button><a href="#products" class="secondary" data-t="seeProducts">اكتشف المنتجين ↓</a></div>
@@ -100,7 +108,7 @@
     <figure><a href="./assets/product-cards.png" target="_blank" rel="noopener noreferrer"><img src="./assets/product-cards.png" loading="lazy" width="390" height="1504" alt="بطاقتا Mission Arena وFuture Shield"></a><figcaption data-t="shotTwo">بطاقتا المنتجين</figcaption></figure>
     <figure><a href="./assets/shield-mock.png" target="_blank" rel="noopener noreferrer"><img src="./assets/shield-mock.png" loading="lazy" width="390" height="950" alt="نتائج محاكاة Future Shield على عرض هاتف"></a><figcaption data-t="shotThree">تجربة Future Shield الاصطناعية</figcaption></figure>
    </div>
-   <p class="privacy"><strong data-t="limitsTitle">حدود العرض:</strong> <span data-t="limits">لا مدخلات عملاء، لا أدوات تتبّع أو طلبات API، ولا دفع أو إصلاح فعلي. يُحفظ اختيار تشغيل الصوت أو كتمه على جهازك محليًا فقط. المعاينة لا تحتوي على خوارزميات المنتجين الداخلية.</span></p>
+   <p class="privacy"><strong data-t="limitsTitle">حدود العرض:</strong> <span data-t="limits">لا مدخلات عملاء، لا أدوات تتبّع أو طلبات API، ولا دفع أو إصلاح فعلي. اختيار الصوت اختياري داخل الصفحة ولا يُرسل لأي جهة. المعاينة لا تحتوي على خوارزميات المنتجين الداخلية.</span></p>
   </div>
  </section>
 </main>

@@ -36,7 +36,7 @@
    shotOne:'أول شاشة — الزجاجات الثلاث',shotTwo:'بطاقتا المنتجين',
    shotThree:'تجربة Future Shield الاصطناعية',
    limitsTitle:'حدود العرض:',
-   limits:'لا مدخلات عملاء، لا أدوات تتبّع أو طلبات API، ولا دفع أو إصلاح فعلي. يُحفظ اختيار تشغيل الصوت أو كتمه على جهازك محليًا فقط. المعاينة لا تحتوي على خوارزميات المنتجين الداخلية.',
+   limits:'لا مدخلات عملاء، لا أدوات تتبّع أو طلبات API، ولا دفع أو إصلاح فعلي. الصوت اختياري ولا يُحفظ اختيارك أو يُرسل لأي جهة. المعاينة لا تحتوي على خوارزميات المنتجين الداخلية.',
    footer:'مراجعة شكلية مستقلة — قرار النشر التجاري: NO-GO'
   },
   en:{
@@ -72,7 +72,7 @@
    shotOne:'First screen — the three glass plates',shotTwo:'Both product cards',
    shotThree:'Synthetic Future Shield demonstration',
    limitsTitle:'Review limits:',
-   limits:'No customer inputs, tracking, API calls, payment or real repair. Your audio on/off preference is stored locally on your device only. No private product logic is included.',
+   limits:'No customer inputs, tracking, API calls, payment or real repair. Audio is optional, with no saved preference or data transfer. No private product logic is included.',
    footer:'Standalone design review — commercial release NO-GO'
   }
  };

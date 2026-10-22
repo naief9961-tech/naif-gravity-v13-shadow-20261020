@@ -204,3 +204,22 @@ section[id],#top{scroll-margin-top:86px}
 @media(prefers-reduced-motion:reduce){
  .glass-sound-toggle{animation:none!important;transition:none!important}
 }
+
+/* Safari-native audio fallback; no external assets, explicit user gesture. */
+.sound-fallback{
+ margin-top:10px;padding:11px 12px;border-radius:10px;
+ background:#203547;border:1px solid #947f69;color:#f2d7b8;
+}
+.sound-fallback>summary{
+ cursor:pointer;min-height:44px;display:flex;align-items:center;
+ font-size:12px;font-weight:800;line-height:1.7;
+}
+.sound-fallback>p{
+ font-size:11.5px;line-height:1.9;color:#e0e8ec;
+ margin:8px 0 12px;
+}
+.sound-fallback audio{display:block;width:100%;min-height:44px;}
+.glass-sound-help{font-weight:700;}
+@media(prefers-reduced-motion:reduce){
+ .sound-fallback{animation:none!important;transition:none!important}
+}

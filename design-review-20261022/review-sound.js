@@ -1,159 +1,146 @@
 'use strict';
-/*
- * NAIF Gravity Crystal Whisper — original V14 owner-selected sound identity.
- * Exact original tones: 1680/2510/3560 Hz, original envelopes, gain and
- * per-stage variants. Adapted ONLY to the public visual preview DOM.
- * Audio opt-in only, never autoplay or external audio/network.
+/**
+ * Original NAIF Gravity Crystal Whisper sound, rendered in native HTML audio
+ * instead of Web Audio to address iPhone silent-switch output behavior.
+ * Files preserve 1680/2510/3560 Hz sine frequencies, phase pitch ratios,
+ * original exponential attack/decay and relative volumes, with a constant
+ * normalization for mobile audibility. All files self-hosted and synthetic.
+ * No autoplay, no telemetry, no personal-data transfer, no external APIs.
  */
 (() => {
-  const toggle=document.getElementById('glassSoundToggle');
-  const label=document.getElementById('glassSoundLabel');
-  const help=document.getElementById('glassSoundHelp');
-  const action=document.getElementById('glassAction');
-  const scene=document.getElementById('glassChamber');
-  const remote=document.querySelector('.glass-truth');
-  if(!toggle||!label||!help||!action||!scene||!remote)return;
-
-  const STORAGE_KEY='naif_v14_design_review_crystal_sound_optin_v1';
-  const memo={
-    ar:{on:'اكتم الصوت',off:'فعّل الصوت',
-      prompt:'صوت Crystal Whisper الأصلي اختياري. فعّله ثم اضغط على الزجاج ثلاث مرات.',
-      ready:'صوت Crystal Whisper مفعّل. اضغط على زر الزجاج لتسمع كل مرحلة.',
-      muted:'الصوت مكتوم؛ ستستمر حركة الزجاج بصمت.',
-      fail:'تعذر تشغيل الصوت في هذا المتصفح؛ سيبقى العرض صامتًا.'},
-    en:{on:'Mute sound',off:'Enable sound',
-      prompt:'The original Crystal Whisper sound is optional. Enable it, then tap the glass action three times.',
-      ready:'Crystal Whisper is on. Tap the glass action to hear each stage.',
-      muted:'Sound is muted. The visual glass animation still works.',
-      fail:'Audio unavailable in this browser; the visual preview remains silent.'}
-  };
-  const copy=()=>memo[document.documentElement.lang==='en'?'en':'ar'];
-  const read=()=>{try{return window.localStorage.getItem(STORAGE_KEY)}catch{return null}};
-  const save=value=>{try{window.localStorage.setItem(STORAGE_KEY,value)}catch{/* Private browsing may block storage. */}};
-  let enabled=read()==='on';
-  let audioBlocked=false;
-  let context=null;
-  let master=null;
-  let playToken=0;
-  const liveOscillators=new Set();
-  const phases=Object.freeze({
-    BEFORE:Object.freeze({next:'FAIL',pitch:1,volume:1}),
-    FAIL:Object.freeze({next:'CORRECTED_LOCAL',pitch:.94,volume:.78}),
-    CORRECTED_LOCAL:Object.freeze({next:'BEFORE',pitch:1.06,volume:.60})
+  const $=id=>document.getElementById(id);
+  const button=$('glassSoundToggle');
+  const label=$('glassSoundLabel');
+  const help=$('glassSoundHelp');
+  const glass=$('glassChamber');
+  const action=$('glassAction');
+  const backup=$('soundFallback');
+  const clips=Object.freeze({
+    BEFORE:$('crystalBefore'),
+    FAIL:$('crystalFail'),
+    CORRECTED_LOCAL:$('crystalCorrected')
   });
+  if(!button||!label||!help||!glass||!action||!backup||
+     Object.values(clips).some(x=>!x))return;
 
-  function paint(reason=''){
-    const c=copy();
-    const text=enabled?c.on:c.off;
-    label.textContent=text;
-    toggle.setAttribute('aria-pressed',String(enabled));
-    toggle.title=text+' · Crystal Whisper';
-    help.textContent=audioBlocked?c.fail:reason==='muted'?c.muted:enabled?c.ready:c.prompt;
+  const dictionary={
+    ar:{
+      off:'🔊 فعّل واسمع Crystal Whisper',
+      on:'🔇 اكتم صوت الزجاجات',
+      prompt:'اضغط لتسمع صوتنا الأصلي مباشرة، ثم اضغط الزجاج ثلاث مرات.',
+      ready:'المشغّل جاهز. كل ضغطة على الزجاج تشغّل مرحلة مختلفة.',
+      requested:'طلبنا من Safari تشغيل النغمة. إذا لم تسمعها، افتح مشغّل الآيفون الأصلي أدناه.',
+      muted:'تم كتم صوت المعاينة.',
+      loading:'جارٍ تشغيل الملف الصوتي المختار…',
+      blocked:'Safari لم يبدأ تشغيل الصوت. افتح المشغّل الأصلي أدناه واضغط ▶.',
+      issue:'فشل تحميل الملف الصوتي؛ المعاينة البصرية ستبقى تعمل.',
+      fallbackTitle:'الصوت ما انسمع؟ جرّبه من مشغّل الآيفون الأصلي',
+      fallbackText:'اضغط ▶ في المشغّل أدناه. هذه نفس نغمة Crystal Whisper، محفوظة كملف صوتي محلي للتوافق مع Safari.'
+    },
+    en:{
+      off:'🔊 Enable & hear Crystal Whisper',
+      on:'🔇 Mute glass sound',
+      prompt:'Tap to hear the original selected sound right away, then step through the three glass stages.',
+      ready:'Media player ready. Every glass tap plays the matching stage.',
+      requested:'Safari started the clip. If you did not hear it, use the native audio player below.',
+      muted:'Preview sound muted.',
+      loading:'Starting your original sound…',
+      blocked:'Safari declined playback. Open the native player below and press Play.',
+      issue:'The sound file failed to load; the visual preview still works.',
+      fallbackTitle:'No sound? Try the native iPhone audio player',
+      fallbackText:'Press Play in the player below. This is the original Crystal Whisper composition, rendered as local media for Safari.'
+    }
+  };
+  const t=()=>dictionary[document.documentElement.lang==='en'?'en':'ar'];
+  let enabled=false;
+  let lastReason='prompt';
+  let generation=0;
+  let current=null;
+
+  function paint(){
+    const copy=t();
+    label.textContent=enabled?copy.on:copy.off;
+    button.setAttribute('aria-pressed',String(enabled));
+    button.title=label.textContent;
+    backup.querySelector('summary').textContent=copy.fallbackTitle;
+    backup.querySelector('p').textContent=copy.fallbackText;
+    $('nativeSoundTest')?.setAttribute('aria-label',document.documentElement.lang==='en'?'Play Crystal Whisper using the native media player':'تجربة Crystal Whisper بمشغّل الوسائط الأصلي');
+    help.textContent=copy[lastReason]||copy.prompt;
   }
   function stopAll(){
-    for(const osc of liveOscillators){try{osc.stop()}catch{/* Oscillator already ended. */}}
-    liveOscillators.clear();
+    for(const media of Object.values(clips)){
+      try{media.pause();media.currentTime=0}catch{/* no media yet */}
+    }
+    current=null;
   }
-  function ensureContext(){
-    if(context)return context;
-    const Ctor=window.AudioContext||window.webkitAudioContext;
-    if(typeof Ctor!=='function')throw new Error('NO_WEB_AUDIO');
-    context=new Ctor({latencyHint:'interactive'});
-    master=context.createGain();
-    // Identical gain to original V14 Crystal Whisper.
-    master.gain.value=0.50;
-    master.connect(context.destination);
-    return context;
-  }
-  function note(freq,amp,duration,delay,attack){
-    const t=context.currentTime+0.012+delay;
-    const osc=context.createOscillator();
-    const volume=context.createGain();
-    osc.type='sine';
-    osc.frequency.setValueAtTime(freq,t);
-    volume.gain.setValueAtTime(0.00001,t);
-    volume.gain.exponentialRampToValueAtTime(amp,t+attack);
-    volume.gain.exponentialRampToValueAtTime(0.00001,t+duration);
-    osc.connect(volume);
-    volume.connect(master);
-    liveOscillators.add(osc);
-    osc.onended=()=>{
-      liveOscillators.delete(osc);
-      try{osc.disconnect();volume.disconnect()}catch{/* Already disconnected. */}
-    };
-    osc.start(t);
-    osc.stop(t+duration+0.003);
-  }
-  function crystal(previousPhase){
-    if(!enabled||!context||context.state!=='running'||document.hidden)return;
-    const variant=phases[previousPhase];
-    if(!variant)return;
+  function playSelected(phase){
+    if(!enabled||document.hidden)return;
+    const audio=clips[phase]||clips.BEFORE;
+    const index=++generation;
     stopAll();
-    master.gain.cancelScheduledValues(context.currentTime);
-    master.gain.setValueAtTime(0.50,context.currentTime);
-    // These three original frequencies, amp/duration/delay/attack values
-    // were selected for V14. No extra sound family and no confirmation beep.
-    note(1680*variant.pitch,0.065*variant.volume,0.071,0,0.002);
-    note(2510*variant.pitch,0.028*variant.volume,0.083,0.003,0.003);
-    note(3560*variant.pitch,0.010*variant.volume,0.068,0.007,0.003);
-  }
-  function unavailable(){
-    enabled=false;
-    audioBlocked=true;
-    save('off');
-    stopAll();
+    current=audio;
+    lastReason='loading';
     paint();
-  }
-  function playForTransition(previousPhase){
-    const variant=phases[previousPhase];
-    if(!enabled||!variant||document.hidden||!remote.textContent.includes('REMOTE_UNKNOWN'))return;
-    const token=++playToken;
     try{
-      const c=ensureContext();
-      if(c.state==='running'){crystal(previousPhase);return}
-      c.resume().then(()=>{
-        if(enabled&&token===playToken&&
-           (scene.dataset.phase===previousPhase||scene.dataset.phase===variant.next))
-          crystal(previousPhase);
-      }).catch(()=>{/* The visual demo still runs in silent mode. */});
-    }catch{/* Unsupported audio never affects visual steps. */}
+      audio.volume=1;
+      audio.muted=false;
+      audio.currentTime=0;
+      // Crucial: invoke HTMLMediaElement.play directly in the user's click,
+      // not from an awaited Promise or page-load event.
+      const promise=audio.play();
+      if(promise&&typeof promise.then==='function'){
+        promise.then(()=>{
+          if(index!==generation||!enabled)return;
+          lastReason='requested';
+          paint(); // Not proof of acoustic output on a physical device.
+        }).catch(()=>{
+          if(index!==generation)return;
+          lastReason='blocked';
+          backup.open=true;
+          paint();
+        });
+      }else{
+        lastReason='requested';paint();
+      }
+    }catch{
+      if(index!==generation)return;
+      lastReason='blocked';backup.open=true;paint();
+    }
   }
-  toggle.addEventListener('click',()=>{
-    const token=++playToken;
+  button.addEventListener('click',()=>{
+    ++generation;
     if(enabled){
       enabled=false;
-      save('off');
       stopAll();
-      if(context&&context.state==='running')context.suspend().catch(()=>{});
-      paint('muted');
+      lastReason='muted';
+      paint();
       return;
     }
-    audioBlocked=false;
-    try{
-      const c=ensureContext();
-      const resumed=c.state==='running'?Promise.resolve():c.resume();
-      Promise.resolve(resumed).then(()=>{
-        if(token!==playToken)return;
-        if(c.state!=='running')throw new Error('AUDIO_BLOCKED');
-        enabled=true;
-        save('on');
-        paint();
-      }).catch(()=>{
-        if(token===playToken)unavailable();
-      });
-    }catch{
-      unavailable();
-    }
+    enabled=true;
+    lastReason='ready';
+    paint();
+    // User-initiated original sound sample — no silent "enabled" state.
+    playSelected('BEFORE');
   });
-  // Capture the BEFORE phase, then let the existing visual handler
-  // advance the public illustration. Exactly one chime per glass step.
-  action.addEventListener('click',()=>playForTransition(scene.dataset.phase),true);
-  window.addEventListener('naif:preview-language-changed',()=>paint());
+  // Read the old stage before the visual-only step advances.
+  action.addEventListener('click',()=>{
+    if(enabled)playSelected(glass.dataset.phase);
+  },true);
+  window.addEventListener('naif:preview-language-changed',paint);
   document.addEventListener('visibilitychange',()=>{
     if(document.hidden){
+      ++generation;
       stopAll();
-      if(context&&context.state==='running')context.suspend().catch(()=>{});
     }
   });
-  paint(); // Never autoplay on load.
+  for(const audio of Object.values(clips)){
+    audio.addEventListener('error',()=>{
+      if(!enabled||audio!==current)return;
+      lastReason='issue';
+      backup.open=true;
+      paint();
+    });
+  }
+  // No persistence and no audio on load. Requires an explicit tap each visit.
+  paint();
 })();
